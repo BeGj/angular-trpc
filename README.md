@@ -15,24 +15,86 @@ The important part is to know the server url and route in the client, and to be 
 
 ### Client
 
-- `pnpm install angular-trpc superjson`
-- Create a file like this to [trpc-client.ts](./projects/demo/src/app/trpc-client.ts) with import to your AppRouter type and route to your trpc endpoint
-Should look like 
+#### Install
+`pnpm install angular-trpc superjson`
+
+### Configure
+Create a file like this to [trpc-client.ts](./projects/demo/src/app/trpc-client.ts) with import to your AppRouter type and route to your trpc endpoint
+
+Should look like
+
 ```ts
-import { AppRouter } from '../trpc/appRouter';
+import { AppRouter } from '../trpc/appRouter'; // Imported from wherever you have your TRPC server in your repo/monorepo.
 import { createTrpcClient } from 'angular-trpc';
 import SuperJSON from 'superjson';
 
 export const { provideTrpcClient, TrpcClient } = createTrpcClient<AppRouter>({
-  url: '/api/trpc',
+  url: '/api/trpc', // Remember to set the right route
   options: {
     transformer: SuperJSON,
   },
 });
+```
+
+#### Providers
+add `provideTrpcClient()` to [app.config.ts](./projects/demo/src/app/app.config.ts) imported from file above.
+
+```ts
+import {
+  ApplicationConfig,
+  provideBrowserGlobalErrorListeners,
+  provideZonelessChangeDetection,
+} from '@angular/core';
+import { provideRouter } from '@angular/router';
+
+import { routes } from './app.routes';
+import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
+import { provideTrpcClient } from './trpc-client'; // This line, but your path
+
+export const appConfig: ApplicationConfig = {
+  providers: [
+    provideBrowserGlobalErrorListeners(),
+    provideZonelessChangeDetection(),
+    provideRouter(routes),
+    provideClientHydration(withEventReplay()),
+    provideTrpcClient(), // and this line
+  ],
+};
 
 ```
-- add `provideTrpcClient()` to [app.config.ts](./projects/demo/src/app/app.config.ts) imported from file above
-- Inject `TrpcClient` where needed like in [blog.ts](./projects/demo/src/app/pages/blog/blog.ts)
+#### Usage
+Inject `TrpcClient` where needed like in [blog.ts](./projects/demo/src/app/pages/blog/blog.ts)
+
+Example: 
+```ts
+import { Component, inject } from '@angular/core';
+import { TrpcClient } from '../../trpc-client';
+import { rxResource, toSignal } from '@angular/core/rxjs-interop';
+import { ActivatedRoute } from '@angular/router';
+import { map } from 'rxjs';
+
+@Component({
+  selector: 'app-blog',
+  imports: [],
+  templateUrl: './blog.html',
+  styleUrl: './blog.css',
+})
+export class Blog {
+  private trpc = inject(TrpcClient); // Inject TRPC
+  private route = inject(ActivatedRoute);
+
+  private blogId = toSignal(this.route.params.pipe(map((params) => Number(params['blogId']))));
+
+  postResouce = rxResource({
+    stream: ({ params }) =>
+      this.trpc.post.getPosts.query({ // Use it wherver you want
+        blogId: params.blogId,
+      }),
+    params: () => ({ blogId: this.blogId() }),
+  });
+}
+
+```
 
 ## Why do you need this library to use TRPC with Angular?
 
@@ -46,13 +108,30 @@ With TRPC you get strongly typed API requests and you don't have either hope you
 
 TRPC is not for everyone, but if you use a BFF (Backend-For-Frontend) pattern we have found it extremely usefull.
 
-## How to run the demo
 
-- `pnpm i`
-- `ng serve`
-- [http:/localhost:4200](http:/localhost:4200)
 
-## TODO for this project
+
+# Contribution
+
+Library is open for contributions! Please make an issue or a merge request
+
+## Getting started contibuting
+- Clone the repo or a fork of it `git clone git@github.com:BeGj/angular-trpc.git`
+- Install dependencies using pnpm `pnpm i`. If you dont have pnpm install it using npm or corepack
+- Build library to dist `ng build angular-trpc`
+- Serve the demo applicaiton if you want `ng serve`
+
+## TODO
 
 - Upgrade to TRPC v11 like this https://github.com/analogjs/analog/pull/1826
 - Fix duplicate TRPC request during ssr like this https://github.com/analogjs/analog/pull/1822
+- Publish as npm library
+- Set up pipelines
+- 
+## Prettier
+
+- Run `pnpm format` to format code using prettier
+
+## Eslint
+
+- Run `pnpm lint` to lint code using eslint
