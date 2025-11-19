@@ -15,10 +15,24 @@ The important part is to know the server url and route in the client, and to be 
 
 ### Client
 
-- `pnpm install angular-trpc`
+- `pnpm install angular-trpc superjson`
 - Create a file like this to [trpc-client.ts](./projects/demo/src/app/trpc-client.ts) with import to your AppRouter type and route to your trpc endpoint
+Should look like 
+```ts
+import { AppRouter } from '../trpc/appRouter';
+import { createTrpcClient } from 'angular-trpc';
+import SuperJSON from 'superjson';
+
+export const { provideTrpcClient, TrpcClient } = createTrpcClient<AppRouter>({
+  url: '/api/trpc',
+  options: {
+    transformer: SuperJSON,
+  },
+});
+
+```
 - add `provideTrpcClient()` to [app.config.ts](./projects/demo/src/app/app.config.ts) imported from file above
-- Inject the trpc client where needed like in [blog.ts](./projects/demo/src/app/pages/blog/blog.ts)
+- Inject `TrpcClient` where needed like in [blog.ts](./projects/demo/src/app/pages/blog/blog.ts)
 
 ## Why do you need this library to use TRPC with Angular?
 
