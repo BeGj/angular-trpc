@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { InjectionToken, Provider, signal, TransferState } from '@angular/core';
 import 'isomorphic-fetch';
 import {
@@ -14,14 +15,14 @@ import {
   tRPC_CACHE_STATE,
 } from './cache-state';
 import { createTRPCRxJSProxyClient } from './trpc-rxjs-proxy';
-// @ts-ignore
+// @ts-expect-error because analog.js did this
 import { FetchEsque } from '@trpc/client/dist/internals/types';
 
-export type TrpcOptions<T extends AnyRouter> = {
+export interface TrpcOptions<T extends AnyRouter> {
   url: string;
   options?: Partial<CreateTRPCClientOptions<T>>;
   batchLinkOptions?: Omit<HttpBatchLinkOptions, 'url' | 'headers'>;
-};
+}
 
 export type TrpcClient<AppRouter extends AnyRouter> = ReturnType<
   typeof createTRPCRxJSProxyClient<AppRouter>
