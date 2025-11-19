@@ -18,7 +18,7 @@ The important part is to know the server url and route in the client, and to be 
 #### Install
 `pnpm install angular-trpc superjson`
 
-### Configure
+#### Configure
 Create a file like this to [trpc-client.ts](./projects/demo/src/app/trpc-client.ts) with import to your AppRouter type and route to your trpc endpoint
 
 Should look like
