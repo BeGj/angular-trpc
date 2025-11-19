@@ -1,6 +1,6 @@
 # Angular-trpc
 
-Forked from https://github.com/analogjs/analog/tree/beta/packages/trpc
+Forked from https://github.com/analogjs/analog/tree/beta/packages/trpc because of https://github.com/analogjs/analog/issues/1894 
 
 ## Getting started
 
@@ -26,3 +26,7 @@ This library improves TRPCs integration with Angular using RxJs and ensures that
 With TRPC you get strongly typed API requests and you don't have either hope your API input and output paramaters change and break your application, or run manual and tiresome OpenAPI generators. When you change inputs or outputs in TRPC the types will instantly change in the frontend code and show you errors before runtime.
 
 TRPC is not for everyone, but if you use a BFF (Backend-For-Frontend) pattern we have found it extremely usefull.
+
+## TODO on this project
+- Upgrade to TRPC v11 like this https://github.com/analogjs/analog/pull/1826
+- Fix duplicate TRPC request during ssr like this https://github.com/analogjs/analog/pull/1822
