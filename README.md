@@ -129,11 +129,10 @@ Library is open for contributions! Please make an issue or a merge request
 
 ## TODO
 
-- Upgrade to TRPC v11 like this https://github.com/analogjs/analog/pull/1826
-- Fix duplicate TRPC request during ssr like this https://github.com/analogjs/analog/pull/1822
-- Publish as npm library
-- Set up pipelines
--
+- [] Upgrade to TRPC v11 like this https://github.com/analogjs/analog/pull/1826
+- [x] Fix duplicate TRPC request during ssr like this https://github.com/analogjs/analog/pull/1822
+- [ ] Publish as npm library
+- [ ] Set up pipelines
 
 ## Prettier
 
