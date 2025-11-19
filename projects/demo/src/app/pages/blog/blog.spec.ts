@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AngularTrpc } from './angular-trpc';
+import { Blog } from './blog';
 
-describe('AngularTrpc', () => {
-  let component: AngularTrpc;
-  let fixture: ComponentFixture<AngularTrpc>;
+describe('Blog', () => {
+  let component: Blog;
+  let fixture: ComponentFixture<Blog>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AngularTrpc]
+      imports: [Blog]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(AngularTrpc);
+    fixture = TestBed.createComponent(Blog);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

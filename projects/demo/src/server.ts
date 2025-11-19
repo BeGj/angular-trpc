@@ -6,6 +6,9 @@ import {
 } from '@angular/ssr/node';
 import express from 'express';
 import { join } from 'node:path';
+import { createExpressMiddleware } from '@trpc/server/adapters/express';
+import { appRouter } from './trpc/appRouter';
+import { createContext } from './trpc/context';
 
 const browserDistFolder = join(import.meta.dirname, '../browser');
 
@@ -23,6 +26,17 @@ const angularApp = new AngularNodeAppEngine();
  * });
  * ```
  */
+
+
+//#region TRPC middleware
+app.use(
+  '/api/trpc',
+  createExpressMiddleware({
+    router: appRouter,
+    createContext
+  })
+)
+//#endregion
 
 /**
  * Serve static files from /browser

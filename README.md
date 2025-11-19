@@ -1,59 +1,28 @@
-# AngularTrpc
+# Angular-trpc
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.3.7.
+Forked from https://github.com/analogjs/analog/tree/beta/packages/trpc
 
-## Development server
+## Getting started
 
-To start a local development server, run:
+### Server
 
-```bash
-ng serve
-```
+- If you are using Angular SSR you may look at  the demo application for how to add trpc to your existing AngularSSR express api, or visit https://trpc.io/docs/v10/server/adapters/express 
+- If you are hosting TRPC in a seperate express or other framework, please look at the TRPC documentation for how to set it up using your framework.
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+If you would like to have AngularSSR with other API frameworks than Express you may get some inspiration from this repo https://github.com/JeanMeche/ssr-v19 where they showcase AngularSSR with Elysia, Fastify, H3, Hono and ExpressJs. I hope that repo is still maintained by the time you read this.
 
-## Code scaffolding
+The important part is to know the server url and route in the client, and to be able to import your appRouter type into the frontend. 
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+### Client
+- `pnpm install angular-trpc`
+- todo
 
-```bash
-ng generate component component-name
-```
+## Why do you need this library to use TRPC with Angular?
+Using TRPC with Angular is not very well documented, but if you are not using AngularSSR then it is pretty straight forward to get it working. You may use this repo as an example for your own implementation, or install it and use the client with most bugs fixed out of the box.
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+This library improves TRPCs integration with Angular using RxJs and ensures that Requests are not duplicated on the server when prerendering and on the client. This is typical problem you meet when you try to do it yourself without this library.
 
-```bash
-ng generate --help
-```
+## Why use TRPC
+With TRPC you get strongly typed API requests and you don't have either hope your API input and output paramaters change and break your application, or run manual and tiresome OpenAPI generators. When you change inputs or outputs in TRPC the types will instantly change in the frontend code and show you errors before runtime.
 
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+TRPC is not for everyone, but if you use a BFF (Backend-For-Frontend) pattern we have found it extremely usefull.

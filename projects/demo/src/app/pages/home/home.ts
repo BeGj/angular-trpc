@@ -1,0 +1,18 @@
+import { Component, inject } from '@angular/core';
+import { rxResource } from '@angular/core/rxjs-interop';
+import { TrpcClient } from '../../trpc-client';
+import { RouterLink } from '@angular/router';
+
+@Component({
+  selector: 'app-home',
+  imports: [RouterLink],
+  templateUrl: './home.html',
+  styleUrl: './home.css',
+})
+export class Home {
+  private trpc = inject(TrpcClient)
+
+  blogsResource = rxResource({
+    stream: () => this.trpc.blog.getBlogs?.query()
+  })
+}

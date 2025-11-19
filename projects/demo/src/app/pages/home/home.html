@@ -1,0 +1,9 @@
+<div>
+  <ul>
+    @for (blog of this.blogsResource.value(); track blog.id) {
+      <li>
+        <a [routerLink]="['/blog', blog.id]">{{ blog.title }}</a>
+      </li>
+    }
+  </ul>
+</div>
