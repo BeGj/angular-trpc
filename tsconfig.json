@@ -4,9 +4,7 @@
   "compileOnSave": false,
   "compilerOptions": {
     "paths": {
-      "angular-trpc": [
-        "./dist/angular-trpc"
-      ]
+      "angular-trpc": ["./dist/angular-trpc"]
     },
     "strict": true,
     "noImplicitOverride": true,

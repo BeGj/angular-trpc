@@ -26,14 +26,9 @@ export type TrpcOptions<T extends AnyRouter> = {
 export type TrpcClient<AppRouter extends AnyRouter> = ReturnType<
   typeof createTRPCRxJSProxyClient<AppRouter>
 >;
-const tRPC_INJECTION_TOKEN = new InjectionToken<unknown>(
-  '@analogjs/trpc proxy client',
-);
+const tRPC_INJECTION_TOKEN = new InjectionToken<unknown>('@analogjs/trpc proxy client');
 
-function customFetch(
-  input: RequestInfo | URL,
-  init?: RequestInit & { method: 'GET' },
-) {
+function customFetch(input: RequestInfo | URL, init?: RequestInit & { method: 'GET' }) {
   if ((globalThis as any).$fetch) {
     return (globalThis as any).$fetch
       .raw(input.toString(), init)
@@ -49,10 +44,8 @@ function customFetch(
 
   // dev server trpc for analog & nitro
   if (typeof window === 'undefined') {
-    const host =
-      process.env['NITRO_HOST'] ?? process.env['ANALOG_HOST'] ?? 'localhost';
-    const port =
-      process.env['NITRO_PORT'] ?? process.env['ANALOG_PORT'] ?? 4205;
+    const host = process.env['NITRO_HOST'] ?? process.env['ANALOG_HOST'] ?? 'localhost';
+    const port = process.env['NITRO_PORT'] ?? process.env['ANALOG_PORT'] ?? 4205;
     const base = `http://${host}:${port}`;
     if (input instanceof Request) {
       input = new Request(base, input);
@@ -97,9 +90,7 @@ export const createTrpcClient = <AppRouter extends AnyRouter>({
       deps: [tRPC_CACHE_STATE, TransferState],
     },
   ];
-  const TrpcClient = tRPC_INJECTION_TOKEN as InjectionToken<
-    TrpcClient<AppRouter>
-  >;
+  const TrpcClient = tRPC_INJECTION_TOKEN as InjectionToken<TrpcClient<AppRouter>>;
   return {
     TrpcClient,
     provideTrpcClient,

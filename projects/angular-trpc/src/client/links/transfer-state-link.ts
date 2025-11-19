@@ -60,9 +60,7 @@ export const transferStateLink =
         // on the server we don't care about the value we will always fetch a new one
         // use superjson to parse our superjson string and retrieve our
         // data return it instead of calling next trpc link
-        return observable((observer) =>
-          observer.next(superjson.parse(storeValue)),
-        );
+        return observable((observer) => observer.next(superjson.parse(storeValue)));
       }
 
       return observable((observer) => {

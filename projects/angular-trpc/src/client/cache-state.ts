@@ -1,10 +1,5 @@
 import { BehaviorSubject, first } from 'rxjs';
-import {
-  APP_BOOTSTRAP_LISTENER,
-  ApplicationRef,
-  inject,
-  InjectionToken,
-} from '@angular/core';
+import { APP_BOOTSTRAP_LISTENER, ApplicationRef, inject, InjectionToken } from '@angular/core';
 
 export const tRPC_CACHE_STATE = new InjectionToken<{
   isCacheActive: BehaviorSubject<boolean>;

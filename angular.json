@@ -50,9 +50,7 @@
                 "input": "projects/demo/public"
               }
             ],
-            "styles": [
-              "projects/demo/src/styles.css"
-            ],
+            "styles": ["projects/demo/src/styles.css"],
             "server": "projects/demo/src/main.server.ts",
             "outputMode": "server",
             "ssr": {
@@ -108,9 +106,7 @@
                 "input": "projects/demo/public"
               }
             ],
-            "styles": [
-              "projects/demo/src/styles.css"
-            ]
+            "styles": ["projects/demo/src/styles.css"]
           }
         }
       }

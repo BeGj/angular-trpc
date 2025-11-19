@@ -11,18 +11,16 @@ import { map } from 'rxjs';
   styleUrl: './blog.css',
 })
 export class Blog {
-  
-  private trpc = inject(TrpcClient)
+  private trpc = inject(TrpcClient);
   private route = inject(ActivatedRoute);
-  
-  private blogId = toSignal(this.route.params.pipe(
-    map(params => Number(params['blogId'])),
-  ));
+
+  private blogId = toSignal(this.route.params.pipe(map((params) => Number(params['blogId']))));
 
   postResouce = rxResource({
-    stream: ({params}) => this.trpc.post.getPosts.query({
-      blogId: params.blogId
-    }),
+    stream: ({ params }) =>
+      this.trpc.post.getPosts.query({
+        blogId: params.blogId,
+      }),
     params: () => ({ blogId: this.blogId() }),
-  })
+  });
 }

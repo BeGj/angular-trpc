@@ -10,9 +10,9 @@ import { RouterLink } from '@angular/router';
   styleUrl: './home.css',
 })
 export class Home {
-  private trpc = inject(TrpcClient)
+  private trpc = inject(TrpcClient);
 
   blogsResource = rxResource({
-    stream: () => this.trpc.blog.getBlogs?.query()
-  })
+    stream: () => this.trpc.blog.getBlogs?.query(),
+  });
 }

@@ -41,11 +41,7 @@ export interface TRPCRequestOptions {
   context?: OperationContext;
 }
 
-export function createChain<
-  TRouter extends AnyRouter,
-  TInput = unknown,
-  TOutput = unknown,
->(opts: {
+export function createChain<TRouter extends AnyRouter, TInput = unknown, TOutput = unknown>(opts: {
   links: OperationLink<TRouter, TInput, TOutput>[];
   op: Operation<TInput>;
 }): OperationResultObservable<TRouter, TOutput> {
@@ -53,9 +49,7 @@ export function createChain<
     function execute(index = 0, op = opts.op) {
       const next = opts.links[index];
       if (!next) {
-        throw new Error(
-          'No more links to execute - did you forget to add an ending link?',
-        );
+        throw new Error('No more links to execute - did you forget to add an ending link?');
       }
       const subscription = next({
         op,
@@ -108,7 +102,5 @@ export type CreateTRPCClientBaseOptions<TRouter extends AnyRouter> =
            * You must use the same transformer on the backend and frontend
            * @link https://trpc.io/docs/data-transformers
            **/
-          transformer?:
-            | /** @deprecated **/ ClientDataTransformerOptions
-            | CombinedDataTransformer;
+          transformer?: /** @deprecated **/ ClientDataTransformerOptions | CombinedDataTransformer;
         };

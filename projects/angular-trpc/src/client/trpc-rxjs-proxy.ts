@@ -17,18 +17,9 @@ import {
   createRecursiveProxy,
   inferTransformedProcedureOutput,
 } from '@trpc/server/shared';
-import {
-  inferObservableValue,
-  share,
-  Observable as TrpcObservable,
-} from '@trpc/server/observable';
+import { inferObservableValue, share, Observable as TrpcObservable } from '@trpc/server/observable';
 import { Observable as RxJSObservable } from 'rxjs';
-import {
-  TRPCClientError,
-  OperationContext,
-  OperationLink,
-  TRPCClientRuntime,
-} from '@trpc/client';
+import { TRPCClientError, OperationContext, OperationLink, TRPCClientRuntime } from '@trpc/client';
 import {
   createChain,
   CreateTRPCClientOptions,
@@ -61,20 +52,14 @@ type DecoratedProcedureRecord<
   TRouter extends AnyRouter,
 > = {
   [TKey in keyof TProcedures]: TProcedures[TKey] extends AnyRouter
-    ? DecoratedProcedureRecord<
-        TProcedures[TKey]['_def']['record'],
-        TProcedures[TKey]
-      >
+    ? DecoratedProcedureRecord<TProcedures[TKey]['_def']['record'], TProcedures[TKey]>
     : TProcedures[TKey] extends AnyProcedure
       ? DecorateProcedure<TProcedures[TKey], TRouter>
       : never;
 };
 
 // Removed subscription and using new type
-const clientCallTypeMap: Record<
-  keyof DecorateProcedure<any, any>,
-  ProcedureType
-> = {
+const clientCallTypeMap: Record<keyof DecorateProcedure<any, any>, ProcedureType> = {
   query: 'query',
   mutate: 'mutation',
 };
@@ -90,19 +75,14 @@ type UntypedClientProperties =
 
 // Nothing changed, only using new types
 export type CreateTrpcProxyClient<TRouter extends AnyRouter> =
-  DecoratedProcedureRecord<
-    TRouter['_def']['record'],
-    TRouter
-  > extends infer TProcedureRecord
+  DecoratedProcedureRecord<TRouter['_def']['record'], TRouter> extends infer TProcedureRecord
     ? UntypedClientProperties & keyof TProcedureRecord extends never
       ? TProcedureRecord
       : IntersectionError<UntypedClientProperties & keyof TProcedureRecord>
     : never;
 
 // Nothing changed, only using new types
-function createTRPCRxJSClientProxy<TRouter extends AnyRouter>(
-  client: TRPCClient<TRouter>,
-) {
+function createTRPCRxJSClientProxy<TRouter extends AnyRouter>(client: TRPCClient<TRouter>) {
   return createFlatProxy<CreateTrpcProxyClient<TRouter>>((key) => {
     // eslint-disable-next-line no-prototype-builtins
     if (client.hasOwnProperty(key)) {
@@ -111,10 +91,7 @@ function createTRPCRxJSClientProxy<TRouter extends AnyRouter>(
     return createRecursiveProxy(({ path, args }) => {
       const pathCopy = [key, ...path];
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      const clientCallType = pathCopy.pop()! as keyof DecorateProcedure<
-        any,
-        any
-      >;
+      const clientCallType = pathCopy.pop()! as keyof DecorateProcedure<any, any>;
 
       const procedureType = clientCallTypeMap[clientCallType];
 
@@ -147,9 +124,7 @@ class TRPCClient<TRouter extends AnyRouter> {
     this.requestId = 0;
 
     const combinedTransformer: CombinedDataTransformer = (() => {
-      const transformer = opts.transformer as
-        | DataTransformerOptions
-        | undefined;
+      const transformer = opts.transformer as DataTransformerOptions | undefined;
 
       if (!transformer) {
         return {
@@ -238,9 +213,7 @@ class TRPCClient<TRouter extends AnyRouter> {
   }
 }
 
-function trpcObservableToRxJsObservable<TValue>(
-  observable: TrpcObservable<TValue, unknown>,
-) {
+function trpcObservableToRxJsObservable<TValue>(observable: TrpcObservable<TValue, unknown>) {
   return new RxJSObservable<TValue>((subscriber) => {
     const sub = observable.subscribe({
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
