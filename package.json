@@ -35,7 +35,6 @@
     "@trpc/client": "^10.45.2",
     "@trpc/server": "^10.45.2",
     "express": "^5.1.0",
-    "h3": "^1.15.4",
     "isomorphic-fetch": "^3.0.0",
     "rxjs": "~7.8.2",
     "superjson": "^2.2.1",
